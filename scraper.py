@@ -194,7 +194,7 @@ def load_sample_data() -> pd.DataFrame:
 def fetch_jobs(keywords: list = None, pages_per_keyword: int = 2) -> pd.DataFrame:
     """
     Main function: scrape jobs for given keywords and return as DataFrame.
-    Falls back to sample data for demo if live scraping fails.
+    Falls back to sample data (filtered by keyword) if live scraping fails.
     """
     keywords = keywords or ['data analyst', 'data scientist', 'business analyst']
     all_jobs = []
@@ -204,17 +204,26 @@ def fetch_jobs(keywords: list = None, pages_per_keyword: int = 2) -> pd.DataFram
             jobs = scrape_hh_malaysia(kw, pages_per_keyword)
             if not jobs:
                 jobs = scrape_jobstreet(kw, pages_per_keyword)
+            if jobs:
+                for job in jobs:
+                    job['keyword'] = kw
             all_jobs.extend(jobs)
         except Exception:
             continue
 
     if all_jobs:
         df = pd.DataFrame(all_jobs)
-        df.to_csv(os.path.join(DATA_DIR, f'jobs_{datetime.now().strftime("%Y%m%d")}.csv'), index=False)
+        df.to_csv(os.path.join(DATA_DIR, f'jobs_{datetime.now().strftime("%Y%m%d_%H%M")}.csv'), index=False)
         return df
 
-    # Fallback to sample data
-    return load_sample_data()
+    # Fallback: load sample data and filter by keyword
+    df = load_sample_data()
+    pattern = '|'.join(kw.lower() for kw in keywords)
+    if 'title' in df.columns:
+        mask = df['title'].str.lower().str.contains(pattern, na=False)
+        if mask.any():
+            return df[mask].reset_index(drop=True)
+    return df
 
 
 if __name__ == '__main__':
