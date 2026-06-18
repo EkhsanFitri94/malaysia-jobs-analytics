@@ -118,23 +118,27 @@ def scrape_hh_malaysia(keyword: str = "data analyst", pages: int = 2) -> list:
     return jobs
 
 
-def load_sample_data() -> pd.DataFrame:
-    """Load or generate sample Malaysian job market data for demo."""
-    sample_path = os.path.join(DATA_DIR, 'sample_jobs.csv')
-    if os.path.exists(sample_path):
-        return pd.read_csv(sample_path)
-
+def load_sample_data(keywords: list = None) -> pd.DataFrame:
+    """Load or generate sample Malaysian job market data for demo.
+    If keywords provided, generates data matching those keywords."""
     import numpy as np
     np.random.seed(2026)
 
-    titles = [
-        'Data Analyst', 'Data Scientist', 'Business Analyst', 'AI Engineer',
-        'Machine Learning Engineer', 'Data Engineer', 'BI Developer',
-        'Python Developer', 'Software Engineer', 'Data Analytics Manager',
-        'Junior Data Analyst', 'Senior Data Scientist', 'Analytics Consultant',
-        'Procurement Analyst', 'Supply Chain Analyst', 'Digital Marketing Analyst',
-        'Financial Analyst', 'Operations Analyst', 'Market Research Analyst',
-    ]
+    targets = keywords or ['data analyst', 'data scientist', 'business analyst']
+
+    # Generate titles from keywords + related variations
+    titles = []
+    for kw in targets:
+        kw_title = kw.strip().title()
+        titles.extend([
+            kw_title,
+            f'Junior {kw_title}',
+            f'Senior {kw_title}',
+            f'{kw_title} Manager',
+            f'{kw_title} Specialist',
+        ])
+    if not titles:
+        titles = ['Data Analyst', 'Business Analyst', 'Software Engineer']
 
     companies = [
         'Petronas', 'Maybank', 'CIMB Group', 'Top Glove', 'AirAsia',
@@ -216,14 +220,8 @@ def fetch_jobs(keywords: list = None, pages_per_keyword: int = 2) -> pd.DataFram
         df.to_csv(os.path.join(DATA_DIR, f'jobs_{datetime.now().strftime("%Y%m%d_%H%M")}.csv'), index=False)
         return df
 
-    # Fallback: load sample data and filter by keyword
-    df = load_sample_data()
-    pattern = '|'.join(kw.lower() for kw in keywords)
-    if 'title' in df.columns:
-        mask = df['title'].str.lower().str.contains(pattern, na=False)
-        if mask.any():
-            return df[mask].reset_index(drop=True)
-    return df
+    # Fallback: generate sample data filtered by keywords
+    return load_sample_data(keywords)
 
 
 if __name__ == '__main__':
