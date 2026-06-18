@@ -118,6 +118,13 @@ with st.sidebar:
                 )
 
     st.markdown("---")
+    
+    # Refresh button
+    if st.button('🔄 Refresh Data', use_container_width=True, help='Clear cache and reload'):
+        st.session_state.clear()
+        st.rerun()
+
+    st.markdown("---")
     st.caption("Built by Ekhsan Fitri · Data Pipeline Project")
 
 # ── Data Loading ─────────────────────────────────────────
