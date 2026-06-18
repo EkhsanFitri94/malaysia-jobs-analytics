@@ -280,7 +280,7 @@ with tab2:
         fig = px.bar(
             by_state,
             x='state', y='median',
-            color='count', size='count',
+            color='count',
             text='median',
             color_continuous_scale='Blues',
             labels={'median': 'Median Salary (RM)', 'state': '', 'count': 'Jobs'},
