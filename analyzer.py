@@ -98,20 +98,46 @@ def _extract_state(location: str) -> str:
 def _categorize_title(title: str) -> str:
     """Categorize job title into broad groups."""
     title = title.lower()
-    if any(k in title for k in ['data scientist', 'ml engineer', 'machine learning', 'ai engineer']):
+    if any(k in title for k in ['data scientist', 'ml engineer', 'machine learning', 'ai engineer', 'artificial intelligence']):
         return 'AI & Machine Learning'
-    if any(k in title for k in ['data analyst', 'analytics', 'bi ', 'business intelligence']):
-        return 'Data & Business Analytics'
+    if any(k in title for k in ['data analyst', 'analytics', 'bi ', 'business intelligence', 'data']):
+        return 'Data & Analytics'
     if any(k in title for k in ['data engineer', 'etl', 'big data']):
         return 'Data Engineering'
-    if any(k in title for k in ['software', 'developer', 'python dev', 'backend', 'frontend']):
-        return 'Software Engineering'
-    if any(k in title for k in ['procurement', 'supply chain', 'operations']):
-        return 'Operations & Supply Chain'
-    if any(k in title for k in ['financial', 'finance', 'accounting']):
-        return 'Finance'
-    if any(k in title for k in ['marketing', 'digital market']):
-        return 'Marketing'
+    if any(k in title for k in ['software', 'developer', 'python dev', 'backend', 'frontend', 'full stack', 'web dev', 'java dev', 'engineer']):
+        return 'Software & IT'
+    if any(k in title for k in ['procurement', 'supply chain', 'logistics', 'inventory', 'warehouse', 'shipping']):
+        return 'Supply Chain & Logistics'
+    if any(k in title for k in ['financial', 'finance', 'accounting', 'accountant', 'auditor', 'tax', 'bookkeeping']):
+        return 'Finance & Accounting'
+    if any(k in title for k in ['marketing', 'digital market', 'brand', 'social media', 'content', 'seo', 'sem']):
+        return 'Marketing & Creative'
+    if any(k in title for k in ['telecommunication', 'telco', 'network', 'wireless', 'fiber', 'broadband', 'rf ', 'radio']):
+        return 'Telecommunications'
+    if any(k in title for k in ['human resource', 'hr ', 'recruitment', 'recruiter', 'talent', 'payroll', 'compensation']):
+        return 'Human Resources'
+    if any(k in title for k in ['admin', 'administrative', 'office', 'clerical', 'secretary', 'reception', 'personal assistant', 'executive assistant']):
+        return 'Administration'
+    if any(k in title for k in ['nurse', 'doctor', 'medical', 'pharmacist', 'healthcare', 'clinic', 'hospital']):
+        return 'Healthcare'
+    if any(k in title for k in ['teacher', 'lecturer', 'education', 'trainer', 'tutor', 'academic']):
+        return 'Education & Training'
+    if any(k in title for k in ['sales', 'business dev', 'account manager', 'retail', 'merchandising']):
+        return 'Sales & Business Development'
+    if any(k in title for k in ['customer service', 'support', 'call center', 'helpdesk']):
+        return 'Customer Service'
+    if any(k in title for k in ['construction', 'civil engineer', 'architect', 'site ', 'project manager', 'quantity survey', 'm&e', 'mechanical', 'electrical']):
+        return 'Construction & Engineering'
+    if any(k in title for k in ['design', 'graphic', 'ui ', 'ux ', 'video', 'photographer', 'multimedia']):
+        return 'Design & Multimedia'
+    if any(k in title for k in ['legal', 'lawyer', 'compliance', 'regulatory', 'paralegal']):
+        return 'Legal & Compliance'
+    if any(k in title for k in ['security', 'guard', 'safety', 'hse', 'occupational health']):
+        return 'Safety & Security'
+    if any(k in title for k in ['quality', 'qa ', 'qc ', 'testing', 'inspector']):
+        return 'Quality Assurance'
+    if any(k in title for k in ['manager', 'director', 'head of', 'vp ', 'chief ', 'ceo', 'coo', 'president']):
+        return 'Management & Executive'
     return 'Other'
 
 
