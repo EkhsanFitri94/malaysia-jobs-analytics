@@ -172,7 +172,8 @@ def load_sample_data() -> pd.DataFrame:
     data = []
     for _ in range(n):
         title = np.random.choice(titles)
-        salary_range = np.random.choice(salary_ranges, p=[0.25, 0.2, 0.15, 0.12, 0.10, 0.08, 0.05, 0.2, 0.12, 0.03, 0.02])
+        idx = np.random.choice(len(salary_ranges), p=[0.25, 0.2, 0.15, 0.12, 0.10, 0.08, 0.05, 0.2, 0.12, 0.03, 0.02])
+        salary_range = salary_ranges[idx]
         data.append({
             'title': title,
             'company': np.random.choice(companies),
