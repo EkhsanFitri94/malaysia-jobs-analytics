@@ -124,6 +124,7 @@ def load_sample_data(keywords: list = None) -> pd.DataFrame:
     import numpy as np
     np.random.seed(2026)
 
+    sample_path = os.path.join(DATA_DIR, 'sample_jobs.csv')
     targets = keywords or ['data analyst', 'data scientist', 'business analyst']
 
     # Generate titles from keywords + related variations
@@ -191,7 +192,6 @@ def load_sample_data(keywords: list = None) -> pd.DataFrame:
         })
 
     df = pd.DataFrame(data)
-    df.to_csv(sample_path, index=False)
     return df
 
 
